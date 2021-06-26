@@ -1,0 +1,14 @@
+import pandas as pd
+import numpy as np
+
+df = pd.DataFrame(pd.read_csv('/content/5_6237491127495164923.csv'))
+df['FamilySize'] = df['SibSp']+df['Parch']
+df.drop(['SibSp','Parch'], axis=1, inplace=True)
+df.corr()
+df['Alone'] = [0 if df['FamilySize'][i]>0 else 1 for i in df.index]
+df.head()
+df.groupby(['Alone'])['Survived'].mean()
+df[['Alone','Fare']].corr()
+df['Sex'] = [0 if df['Sex'][i]=='male' else 1 for i in df.index]  # 1 for female, 0 for male
+df.groupby(['Sex'])['Survived'].mean()
+df.groupby(['Embarked'])['Survived'].mean()
